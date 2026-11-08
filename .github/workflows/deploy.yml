@@ -7,7 +7,17 @@ permissions:
   pages: write
   id-token: write
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Check HTML
+        run: npx --yes htmlhint index.html
+      - name: Check CSS
+        run: npx --yes stylelint style.css
   deploy:
+    needs: lint
     runs-on: ubuntu-latest
     environment:
       name: github-pages
